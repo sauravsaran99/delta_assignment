@@ -1,0 +1,15 @@
+.custom_table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .custom_table th,
+  .custom_table td {
+    padding: 8px;
+    text-align: left;
+  }
+
+  .col_bgcolorsecondary {
+    background-color: rgba(234, 235, 236, 0.419);
+}
+  

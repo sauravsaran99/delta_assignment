@@ -1,0 +1,16 @@
+.home_container {
+    width: 100%;
+}
+
+.addmembers_container {
+    width: 80%;
+     margin: 0 auto;
+     display: flex;
+     align-items: center;
+}
+
+.table_container {
+    width: 80%;
+    margin: 0 auto;
+    border-top: 2px solid black;
+}

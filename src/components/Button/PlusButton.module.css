@@ -1,0 +1,24 @@
+/* PlusButton.module.css */
+.plusButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 140px;
+    height: 40px;
+    border: none;
+    border-radius: 25px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .plusButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .plusButton:focus {
+    outline: none;
+  }
+  
