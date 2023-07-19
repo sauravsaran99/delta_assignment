@@ -5,13 +5,16 @@ import { AppState } from "../../redux/reducers";
 import styles from './Home.module.css'
 import { useDispatch } from 'react-redux';
 import { RowData, addRow } from '../../redux/actions';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LabelInput from '../../components/Option.tsx/LabelInput';
 import AddMember from '../../components/Form/AddMember';
+import { useNavigate } from 'react-router-dom';
+import Loader from '../../components/Loader/Loader';
 
 
 
 const Home = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const data = useSelector((state: AppState | any) => state.appReducer.data);
   const [status, setStatus] = useState<string>('');
@@ -21,24 +24,8 @@ const Home = () => {
   const [allStatus, setAllStatus] = useState<boolean>(false)
   const [selectedCompany, setSelectedCompany] = useState<any>([])
   const [formstatus, Setformstatus] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState(true);
 
-  // console.log('status', status)
-
-  // const handlePlusButtonClick = () => {
-  //   const fakeData: RowData = {
-  //     id: Date.now(), // Just a simple way to generate unique IDs for the example
-  //     name: 'Sau Krp',
-  //     company: 'ABC Corp',
-  //     status: 'Closed',
-  //     notes: 'Lorem ipsum',
-  //   };
-
-  //   dispatch(addRow(fakeData));
-  //   const newData = { ...data, fakeData }
-  //   localStorage.setItem('formData', JSON.stringify({ ...newData }));
-  // };
-
-  // Filtering array for unquie company
   const uniqueCompanyObjects: AppState | any = [];
   const uniqueCompanyNames: Record<string, boolean> = {};
 
@@ -69,13 +56,30 @@ const Home = () => {
     }
   }
 
+  useEffect(() => {
+    setTimeout(() => {
+        setIsLoading(false);
+    }, 1000); // Simulating 3 seconds of loading time
+}, []);
+
+  function logout() {
+    setIsLoading(true);
+    localStorage.removeItem('user');
+    setIsLoading(false)
+    navigate('/login');
+  }
+
   console.log('selectedCompany', selectedCompany)
 
   return (
     <div className={styles.home_container}>
+      {isLoading && <Loader />}
       <div className={styles.addmembers_container}>
-        <p style={{ fontSize: '28px', fontWeight: 500, paddingRight: '20px' }}>Team Members</p>
-        <Button onClick={() => Setformstatus(true)} source="/plus.svg" text={'Add Members'} bgColor={'rgb(28, 132, 236)'} color='#fff' />
+        <div style={{ display: 'flex', alignItems: 'center' }}><p style={{ fontSize: '28px', fontWeight: 500, paddingRight: '20px' }}>Team Members</p>
+          <Button onClick={() => Setformstatus(true)} source="/plus.svg" text={'Add Members'} bgColor={'rgb(28, 132, 236)'} color='#fff' /></div>
+        <div>
+          <Button onClick={logout} source="" text={'Logout'} bgColor={'#fff'} color='rgb(28, 132, 236)' />
+        </div>
       </div>
       <div className={styles.table_container}>
         <div className={styles.com_sta_container}>
