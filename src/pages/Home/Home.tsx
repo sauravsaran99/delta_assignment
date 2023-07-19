@@ -5,40 +5,111 @@ import { AppState } from "../../redux/reducers";
 import styles from './Home.module.css'
 import { useDispatch } from 'react-redux';
 import { RowData, addRow } from '../../redux/actions';
+import { useState } from 'react';
+import LabelInput from '../../components/Option.tsx/LabelInput';
+import AddMember from '../../components/Form/AddMember';
 
 
 
 const Home = () => {
-    const dispatch = useDispatch();
-    const data = useSelector((state: AppState | any) => state.appReducer.data    );
+  const dispatch = useDispatch();
+  const data = useSelector((state: AppState | any) => state.appReducer.data);
+  const [status, setStatus] = useState<string>('');
+  const [company, setCompany] = useState<string>('');
+  const [showCheckBox, setCheckBox] = useState<boolean>(false);
+  const [allCheckbox, setAllCheckbox] = useState<boolean>(false)
+  const [allStatus, setAllStatus] = useState<boolean>(false)
+  const [selectedCompany, setSelectedCompany] = useState<any>([])
+  const [formstatus, Setformstatus] = useState<boolean>(false)
 
-    const handlePlusButtonClick = () => {
-        const fakeData: RowData = {
-          id: Date.now(), // Just a simple way to generate unique IDs for the example
-          name: 'Sau Krp',
-          company: 'ABC Corp',
-          status: 'Active',
-          lastUpdated: '2023-07-18',
-          notes: 'Lorem ipsum',
-        };
-    
-        dispatch(addRow(fakeData));
-        const newData = {...data, fakeData}
-        localStorage.setItem('formData', JSON.stringify({...newData}));
-      };
+  // console.log('status', status)
 
-      console.log('data', data)
-    return (
-        <div className={styles.home_container}>
-            <div className={styles.addmembers_container}>
-            <p style={{fontSize: '28px', fontWeight: 500, paddingRight: '20px'}}>Team Members</p>
-            <Button onClick={handlePlusButtonClick} text={'Add Members'} />
+  // const handlePlusButtonClick = () => {
+  //   const fakeData: RowData = {
+  //     id: Date.now(), // Just a simple way to generate unique IDs for the example
+  //     name: 'Sau Krp',
+  //     company: 'ABC Corp',
+  //     status: 'Closed',
+  //     notes: 'Lorem ipsum',
+  //   };
+
+  //   dispatch(addRow(fakeData));
+  //   const newData = { ...data, fakeData }
+  //   localStorage.setItem('formData', JSON.stringify({ ...newData }));
+  // };
+
+  // Filtering array for unquie company
+  const uniqueCompanyObjects: AppState | any = [];
+  const uniqueCompanyNames: Record<string, boolean> = {};
+
+  data.forEach((item: any) => {
+    if (!uniqueCompanyNames[item.company]) {
+      uniqueCompanyNames[item.company] = true;
+      uniqueCompanyObjects.push(item);
+    }
+  });
+
+  function showOptions() {
+
+    if (showCheckBox) {
+      setCheckBox(false)
+    } else {
+      setCheckBox(true)
+    }
+  }
+
+  function getOptions(val: string, stage: boolean | null) {
+    setAllStatus(false);
+
+    if (stage) {
+      let newData = selectedCompany.filter((item: any) => item !== val);
+      setSelectedCompany([...newData])
+    } else {
+      setSelectedCompany([...selectedCompany, val])
+    }
+  }
+
+  console.log('selectedCompany', selectedCompany)
+
+  return (
+    <div className={styles.home_container}>
+      <div className={styles.addmembers_container}>
+        <p style={{ fontSize: '28px', fontWeight: 500, paddingRight: '20px' }}>Team Members</p>
+        <Button onClick={() => Setformstatus(true)} source="/plus.svg" text={'Add Members'} bgColor={'rgb(28, 132, 236)'} color='#fff' />
+      </div>
+      <div className={styles.table_container}>
+        <div className={styles.com_sta_container}>
+          <div className={styles.com_button}>
+            <div className={styles.dropdown} onClick={showOptions}>
+              company({uniqueCompanyObjects.length})
             </div>
-            <div className={styles.table_container}>
-            <Table data={data} />
-            </div>
+            {showCheckBox && <div className={styles.options}>
+              <label onClick={() => {
+                setAllCheckbox(allCheckbox ? false : true)
+                setAllStatus(true)
+                setSelectedCompany(data.map((row: any) => row.company))
+              }}>
+                <input type="checkbox" value={company} checked={allCheckbox && allStatus} />
+                All
+              </label>
+              {uniqueCompanyObjects.map((row: any) => (
+                <LabelInput key={row.id} getOptions={getOptions} company={row.company} status={allCheckbox} />
+              ))}
+            </div>}
+          </div>
+          <div className={styles.sta_button}>
+            <select className={styles.select_cont} onChange={(e) => setStatus(e.target.value)}>
+              <option value="">Status</option>
+              <option value="Active">Active</option>
+              <option value="Closed">Closed</option>
+            </select>
+          </div>
         </div>
-    )
+        <Table data={data} company={selectedCompany} status={status} />
+      </div>
+      {formstatus && <AddMember setStatus={Setformstatus} formstatus={formstatus} />}
+    </div>
+  )
 }
 
 export default Home;

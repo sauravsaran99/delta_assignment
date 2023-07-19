@@ -1,5 +1,6 @@
 .home_container {
     width: 100%;
+    position: relative;
 }
 
 .addmembers_container {
@@ -14,3 +15,61 @@
     margin: 0 auto;
     border-top: 2px solid black;
 }
+
+.com_sta_container {
+    display: flex;
+}
+
+.com_button {
+    padding: 10px;
+}
+
+.com_select_but {
+    width: 150px;
+}
+
+.sta_button {
+    padding: 10px 0px;
+}
+
+.select_cont {
+    padding: 3.8px 5px;
+}
+
+/* custom drop down css */
+.dropdown {
+    width: 6rem;
+    height: 1.5rem;
+    font-size: 15px;
+    padding: 0 5px;
+    cursor: pointer;
+    border: 1px solid grey;
+    position: relative;
+    display: flex;
+    align-items: center;
+
+  }
+  .options {
+    margin: 0.5rem 0;
+    width: 12rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    position: absolute;
+    z-index: 1;
+    background-color: #fff;
+  }
+  label {
+    padding: 0.2rem;
+  }
+  label:hover {
+    background-color: rgb(246, 246, 246);
+  }
+  button {
+    font-size: 1rem;
+    border-radius: 10px;
+    padding: 0.5rem;
+    background-color: yellow;
+    border: 2px solid green;
+    margin: 1rem 0;
+  }

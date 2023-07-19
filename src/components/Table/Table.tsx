@@ -14,11 +14,21 @@ interface TableRow {
 
 interface TableProps {
   data: TableRow[];
+  company: any[];
+  status: string
 }
 
-const Table: React.FC<TableProps> = ({ data }) => {
+const Table: React.FC<TableProps> = ({ data, company, status }) => {
   const dispatch = useDispatch();
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
+
+  if (company.length !== 0) {
+    data = data.filter((data: any) => company.includes(data.company))
+  }
+
+  if(status !== '') {
+    data = data.filter((item) => item.status === status)
+  }
 
   const handleCheckboxChange = (rowId: number) => {
     if (selectedRows.includes(rowId)) {
@@ -38,8 +48,8 @@ const Table: React.FC<TableProps> = ({ data }) => {
       <thead>
         <tr>
           <th><input
-                type="checkbox"
-              /></th>
+            type="checkbox"
+          /></th>
           <th>Name</th>
           <th>Company</th>
           <th>Status</th>
@@ -50,8 +60,8 @@ const Table: React.FC<TableProps> = ({ data }) => {
       </thead>
       <tbody>
         {data.map((row, i) => (
-          
-          <tr key={row.id} className={i % 2 == 0 ?styles.col_bgcolorsecondary:styles.col_bgcolorprime}>
+
+          <tr key={row.id} className={i % 2 == 0 ? styles.col_bgcolorsecondary : styles.col_bgcolorprime}>
             <td>
               <input
                 type="checkbox"

@@ -8,7 +8,9 @@ const initialState: AppState = {
   data: [
   { id: 1, name: 'John Doe', company: 'ABC Corp', status: 'Active', lastUpdated: '2023-07-18', notes: 'Lorem ipsum' },
   { id: 2, name: 'Jane Smith', company: 'XYZ Inc', status: 'Inactive', lastUpdated: '2023-07-17', notes: 'Dolor sit amet' },
-  // Add more initial data rows as needed
+  { id: 3, name: 'Mike Johnson', company: 'ABC Corp', status: 'Active', lastUpdated: '2023-07-16', notes: 'Lorem ipsum' },
+  { id: 4, name: 'Sarah Adams', company: 'LMN Ltd', status: 'Active', lastUpdated: '2023-07-15', notes: 'Lorem ipsum' },
+  // Add more objects to the dataArray as needed
 ],
 };
 
