@@ -46,7 +46,7 @@ const Login: React.FC = () => {
         <div className={styles.container}>
             {isLoading && <Loader />}
             <div className={styles.formWrapper}>
-                <h2>Sign Up</h2>
+                <h2>Login In</h2>
                 <form>
 
                     <div className={styles.formGroup}>
